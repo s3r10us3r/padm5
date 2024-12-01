@@ -1,0 +1,107 @@
+﻿@page "/workerform/{Id:int?}"
+@using padm5.models
+@using padm5.models.Dtos
+@inject NavigationManager NavigationManager
+
+@if(workerDto == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="workerDto" OnSubmit="SubmitWorker">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div>
+            <label>First name:</label>
+            <InputText @bind-Value="workerDto.FirstName"/>
+        </div>
+        <div>
+            <label>Last name:</label>
+            <InputText @bind-Value="workerDto.LastName"/>
+        </div>
+        <div>
+            <label>Position:</label>
+            <InputText @bind-Value="workerDto.Position"/>
+        </div>
+        <div>
+            <label>Salary:</label>
+            <InputNumber @bind-Value="workerDto.Salary"/>
+        </div>
+
+        <button type="submit">Submit</button>
+    </EditForm>
+
+    @if (Id != null)
+    {
+        <EditForm Model="workerProfileDto" OnSubmit="SubmitProfile">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+
+            <div>
+                <label>Mail:</label>
+                <InputText @bind-Value="workerProfileDto.Mail"/>
+            </div>
+            <div>
+                <label>Address:</label>
+                <InputText @bind-Value="workerProfileDto.Address"/>
+            </div>
+            <div>
+                <label>Phone:</label>
+                <InputText @bind-Value="workerProfileDto.PhoneNumber"/>
+            </div>
+
+            <button type="submit">Update profile</button>
+        </EditForm>
+    }
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    [Inject]
+    public frontend.webServices.Interfaces.IBaseWebService WebService { get; set; }
+
+    private WorkerDto workerDto;
+    private WorkerProfileDto workerProfileDto;
+    protected override async Task OnInitializedAsync()
+    {
+        workerDto = new();
+        workerProfileDto = new();
+        if (Id != null)
+        {
+            var model = await WebService.GetOne<Worker>((int)Id);
+            workerDto.FirstName = model.FirstName;
+            workerDto.LastName = model.LastName;
+            workerDto.Salary = model.Salary;
+            workerDto.Position = model.Position;
+            if (model.Profile != null)
+            {
+                workerProfileDto.Mail = model.Profile.Mail;
+                workerProfileDto.PhoneNumber = model.Profile.PhoneNumber;
+                workerProfileDto.Address = model.Profile.Address;
+            }
+        }
+    }
+
+    private async Task SubmitWorker()
+    {
+        if (Id == null)
+        {
+            var model = await WebService.AddOne<Worker>(workerDto);
+            NavigationManager.NavigateTo($"worker/{model.Id}");
+        }
+        else 
+        {
+            await WebService.UpdateOne<Worker>((int)Id, workerDto);
+            NavigationManager.NavigateTo($"worker/{Id}");
+        }
+    }
+
+    private async Task SubmitProfile()
+    {
+        await WebService.UpdateOne<WorkerProfile>((int)Id, workerProfileDto);
+        NavigationManager.NavigateTo($"worker/{Id}");
+    }
+}

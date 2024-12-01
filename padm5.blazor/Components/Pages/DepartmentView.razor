@@ -1,0 +1,57 @@
+﻿@page "/department/{Id:int}"
+@using Microsoft.AspNetCore.WebUtilities
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Department</PageTitle>
+@if(department == null)
+{
+    <p>Loading...</p>
+}
+else 
+{
+    <h1>@department.Name</h1>
+    <ul>
+        @foreach(var team in department.Teams)
+        {
+            <li>
+                <a href="@($"team/{team.Id}")">@team.Name</a>
+            </li>
+        }
+    </ul>
+    <button @onclick="Edit">Edit</button>
+    <button @onclick="AddTeam">Add team</button>
+    <button @onclick="Delete">Delete</button>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; } = 0;
+
+    [Inject]
+    private IBaseWebService BaseWebService { get; set; }
+
+    private Department department;
+
+    protected override async Task OnInitializedAsync()
+    {
+        department = await BaseWebService.GetOne<Department>(Id);
+    }
+
+    private void AddTeam()
+    {
+        NavigationManager.NavigateTo($"/teamform/{Id}");
+    }
+
+    private void Edit()
+    {
+        NavigationManager.NavigateTo($"newdepartment/{Id}");
+    }
+
+    private async Task Delete()
+    {
+        await BaseWebService.DeleteOne<Department>(Id);
+        NavigationManager.NavigateTo($"/");
+    }
+}

@@ -1,0 +1,31 @@
+﻿@page "/"
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@inject IBaseWebService webService
+@inject NavigationManager navigationManager
+
+<PageTitle>Departments</PageTitle>
+
+@foreach (var department in Departments)
+{
+    <div><a href="/department/@department.Id">@department.Name</a></div>
+}
+<div>
+    <button @onclick="AddDepartment">
+        Add department :)
+    </button>
+</div>
+
+@code {
+    private List<Department> Departments = [];
+    protected override async Task OnInitializedAsync()
+    {
+        Departments = await GetDepartments();
+    }
+
+    private void AddDepartment()
+    {
+        navigationManager.NavigateTo("/newdepartment");
+    }
+}
+

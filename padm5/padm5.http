@@ -1,0 +1,6 @@
+@padm5_HostAddress = http://localhost:5197
+
+GET {{padm5_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

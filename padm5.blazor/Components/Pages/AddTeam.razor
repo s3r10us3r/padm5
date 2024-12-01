@@ -1,0 +1,88 @@
+﻿@page "/teamform/{DepartmentId:int}/{Id:int?}"
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@using padm5.models.Dtos
+@inject NavigationManager navigationManager
+
+@if (team != null)
+{
+    <EditForm Model="team" OnSubmit="Submit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div>
+            <label>Name:</label>
+            <InputText @bind-Value="team.Name"/>
+        </div>
+
+        @if(workers != null)
+        {
+            @foreach(var (worker, i) in workers.Select((w, i) => (w, i)))
+            {
+                <div>
+                    <input type="checkbox" id="@worker.Id" name="optionGroup" value="@(worker.FirstName + " " + worker.LastName)" 
+                    @bind="isCheckedArray[i]"/>
+                    <label for="@worker.Id">@(worker.FirstName + " " + worker.LastName)</label>
+                </div>
+            }
+        }
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int DepartmentId { get; set; }
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    [Inject]
+    public IBaseWebService WebService{ get; set; }
+
+    public bool[] isCheckedArray;
+    private TeamDto team;
+    private List<WorkerDtoWithId> workers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == null)
+        {
+            team = new();
+            team.DepartmentId = DepartmentId;
+            team.Workers = [];
+        }
+        else 
+        {
+            var teamModel = await WebService.GetOne<Team>((int)Id);
+            team = new();
+            team.DepartmentId = DepartmentId;
+            team.Name = teamModel.Name;
+            team.Workers = teamModel.Workers.Select(w => w.ToDto()).ToList();
+        }
+        workers = (await WebService.GetAll<Worker>()).Select(w => w.ToDto()).ToList();
+        isCheckedArray = workers.Select(w => team.Workers.Find(w2 => w.Id == w2.Id) != null).ToArray();
+    }
+
+    private async Task Submit()
+    {
+        team.Workers = [];
+
+        workers.Select((w, i) => (w, i))
+        .ToList()
+        .ForEach((i) => { if (isCheckedArray[i.i]) team.Workers.Add(i.w); });
+
+        if (Id == null)
+        {
+            await WebService.AddOne<Team>(team);
+            navigationManager.NavigateTo($"/department/{DepartmentId}");
+        }
+        else 
+        {
+            await WebService.UpdateOne<Team>((int)Id, team);
+            navigationManager.NavigateTo($"/team/{(int)Id}");
+        }
+    }
+}
+

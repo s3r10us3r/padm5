@@ -1,0 +1,87 @@
+﻿@page "/workers"
+@inject NavigationManager NavigationManager
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+
+@if(workers == null)
+{
+    <p>Loading...</p>
+}
+else 
+{
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach(var worker in workers)
+        {
+            <tr>
+                <td>@worker.FirstName</td>
+                <td>@worker.LastName</td>
+                <td>@worker.Position</td>
+                <td>@worker.Salary</td>
+                <td>
+                    <button @onclick="@(() => Details(worker.Id))">Details</button>
+                    <button @onclick="@(() => Edit(worker.Id))">Edit</button>
+                    <button @onclick="@(() => Delete(worker.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+    </table>
+    <button @onclick="Add">New worker</button>
+}
+<style>
+    table {
+    border-collapse: collapse; /* Ensures borders do not overlap */
+    width: 100%; /* Optional: Make the table take the full width of the container */
+    }
+
+    th, td {
+    padding: 10px; /* Adds padding inside table cells */
+    text-align: left; /* Aligns text to the left */
+    border: 1px solid #ddd; /* Optional: Adds a border around cells */
+    }
+
+    th {
+    background-color: #f4f4f4; /* Optional: Adds a background color for header cells */
+    }
+</style>
+
+
+@code {
+    private List<Worker> workers;
+
+    [Inject]
+    public IBaseWebService WebService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        workers = await WebService.GetAll<Worker>();
+    }
+
+    private void Details(int id)
+    {
+        NavigationManager.NavigateTo($"/worker/{id}");
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/workerform");
+    }
+
+    private void Edit(int id)
+    {
+        NavigationManager.NavigateTo($"/workerform/{id}");
+    }
+
+    private async Task Delete(int id)
+    {
+        await WebService.DeleteOne<Worker>(id);
+        NavigationManager.Refresh(true);
+    }
+}

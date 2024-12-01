@@ -1,0 +1,47 @@
+﻿@page "/team/{Id:int}"
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@inject NavigationManager navigationManager
+
+@if (team != null)
+{
+    <h1>@team.Name</h1>
+    @foreach(var worker in team.Workers)
+    {
+        <ul>
+            <li>
+                <a href="/worker/@worker.Id}">@(worker.FirstName + " " + worker.LastName)</a>
+            </li>
+        </ul>
+    }
+    <div>
+        <button @onclick="Edit">Edit</button>
+        <button @onclick="Delete">Delete</button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Team team;
+
+    [Inject]
+    public IBaseWebService BaseWebService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        team = await BaseWebService.GetOne<Team>(Id);
+    }
+
+    private void Edit()
+    {
+        navigationManager.NavigateTo($"/teamform/{team.DepartmentId}/{team.Id}");
+    }
+
+    private async Task Delete()
+    {
+        await BaseWebService.DeleteOne<Team>(Id);
+        navigationManager.NavigateTo($"department/{team.DepartmentId}");
+    }
+}

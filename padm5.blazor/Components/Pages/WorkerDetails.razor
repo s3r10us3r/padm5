@@ -1,0 +1,59 @@
+﻿@page "/worker/{Id:int}"
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@inject NavigationManager NavigationManager
+
+@if(worker == null)
+{
+    <p>Loading...</p>
+}
+else 
+{
+    <h1>@(worker.FirstName + " " + worker.LastName)</h1>
+    <div style="display: flex; flex-direction:column">
+        <label>Position: @worker.Position</label>
+        <label>Salary: @worker.Salary</label>
+
+        @if (worker.Profile == null)
+        {
+            <p>Worker profile has not been created</p>
+        }
+        else 
+        {
+            <label>Mail: @worker.Profile.Mail</label>
+            <label>Address: @worker.Profile.Address</label>
+            <label>PhoneNumber: @worker.Profile.PhoneNumber</label>
+        }
+        <div>
+            <button @onclick="Edit">Edit</button>
+            <button @onclick="Delete">Delete</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    public IBaseWebService WebService { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Worker worker;
+
+    protected override async Task OnInitializedAsync()
+    {
+        worker = await WebService.GetOne<Worker>(Id);
+    }
+
+    private void Edit()
+    {
+        NavigationManager.NavigateTo($"/workerform/{Id}");
+    }
+
+    private async Task Delete()
+    {
+        await WebService.DeleteOne<Worker>(Id);
+        NavigationManager.NavigateTo("/workers");
+    }
+}
+

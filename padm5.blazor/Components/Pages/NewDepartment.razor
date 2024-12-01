@@ -1,0 +1,62 @@
+﻿@page "/newdepartment/{Id:int?}"
+@using padm5.frontend.webServices.Interfaces
+@using padm5.models
+@using padm5.models.Dtos
+@inject NavigationManager navigationManager
+
+@if (dto == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="dto" OnSubmit="Submit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div>
+            <label>Name:</label>
+            <InputText @bind-Value="dto.Name"/>
+        </div>
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [Inject]
+    public IBaseWebService WebService{ get; set; }
+
+    private DepartmentDto dto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == null)
+        {
+            dto = new();
+        }
+        else
+        {
+            var department = await WebService.GetOne<Department>((int)Id);
+            dto = new();
+            dto.Name = department.Name;
+        }
+    }
+
+    private async Task Submit()
+    {
+        if (Id == null)
+        {
+            await WebService.AddOne<Department>(dto);
+            navigationManager.NavigateTo("/");
+        }
+        else 
+        {
+            await WebService.UpdateOne<Department>((int)Id, dto);
+            navigationManager.NavigateTo($"/department/{Id}");
+        }
+    }
+}
