@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="padm5.maui.WorkerListPage"
+    Title="Worker List">
+
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Add Worker Button -->
+            <Button Text="Add Worker"
+                    Command="{Binding AddCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            <!-- Workers List -->
+            <CollectionView ItemsSource="{Binding Workers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="8"
+                               Padding="10"
+                               Margin="0,5"
+                               HasShadow="True"
+                               BackgroundColor="White">
+                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="5">
+                                <!-- Worker Name -->
+                                <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" />
+
+                                <!-- Position -->
+                                <Label Grid.Row="1" Grid.Column="0" Text="Position:" FontAttributes="Bold" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Position}" />
+
+                                <!-- Salary -->
+                                <Label Grid.Row="2" Grid.Column="0" Text="Salary:" FontAttributes="Bold" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Salary, StringFormat='{}{0:C}'}" />
+
+                                <!-- Action Buttons -->
+                                <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                             Orientation="Horizontal"
+                                             HorizontalOptions="End"
+                                             Spacing="10"
+                                             Margin="0,10,0,0">
+                                    <Button Text="View Details"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewDetailsCommand}"
+                                            CommandParameter="{Binding Id}"
+                                            BackgroundColor="#4CAF50"
+                                            TextColor="White"
+                                            CornerRadius="5"
+                                            Padding="10,5" />
+
+                                    <Button Text="Update"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.UpdateCommand}"
+                                            CommandParameter="{Binding Id}"
+                                            BackgroundColor="#FFA500"
+                                            TextColor="White"
+                                            CornerRadius="5"
+                                            Padding="10,5" />
+
+                                    <Button Text="Delete"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                                            CommandParameter="{Binding Id}"
+                                            BackgroundColor="#F44336"
+                                            TextColor="White"
+                                            CornerRadius="5"
+                                            Padding="10,5" />
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

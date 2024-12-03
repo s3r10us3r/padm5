@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="padm5.maui.NewDepartmentPage"
+    Title="New Department">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Page Header -->
+            <Label Text="Create a New Department"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Department Name -->
+            <Label Text="Department Name" FontAttributes="Bold" />
+            <Entry Text="{Binding Department.Name}" Placeholder="Enter department name" />
+
+            <!-- Submit Button -->
+            <Button Text="Submit"
+                    Command="{Binding SubmitCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

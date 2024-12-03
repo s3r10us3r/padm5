@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="padm5.maui.UpdateWorkerPage"
+    Title="Update Worker">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Worker Details Section -->
+            <Label Text="Worker Details"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- First Name -->
+            <Label Text="First Name" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerDto.FirstName}" Placeholder="Enter first name" />
+
+            <!-- Last Name -->
+            <Label Text="Last Name" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerDto.LastName}" Placeholder="Enter last name" />
+
+            <!-- Position -->
+            <Label Text="Position" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerDto.Position}" Placeholder="Enter position" />
+
+            <!-- Salary -->
+            <Label Text="Salary" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerDto.Salary}" Placeholder="Enter salary" Keyboard="Numeric" />
+
+            <!-- Submit Worker Button -->
+            <Button Text="Update Worker"
+                    Command="{Binding SubmitWorkerCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            <!-- Separator -->
+            <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,20,0,20" />
+
+            <!-- Worker Profile Section -->
+            <Label Text="Worker Profile"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Email -->
+            <Label Text="Email" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerProfileDto.Mail}" Placeholder="Enter email" Keyboard="Email" />
+
+            <!-- Address -->
+            <Label Text="Address" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerProfileDto.Address}" Placeholder="Enter address" />
+
+            <!-- Phone Number -->
+            <Label Text="Phone Number" FontAttributes="Bold" />
+            <Entry Text="{Binding WorkerProfileDto.PhoneNumber}" Placeholder="Enter phone number" Keyboard="Telephone" />
+
+            <!-- Submit Profile Button -->
+            <Button Text="Update Profile"
+                    Command="{Binding SubmitProfileCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

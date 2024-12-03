@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "padm5.blazor", "padm5.blazo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "padm5.frontend.webServices", "padm5.frontend.webServices\padm5.frontend.webServices.csproj", "{E176FF48-1F04-405C-A2D1-24A7BD0DE461}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "padm5.maui", "padm5.maui\padm5.maui.csproj", "{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "padm5.ViewModels", "padm5.ViewModels\padm5.ViewModels.csproj", "{07090096-A277-49D0-A0B8-FF25DB0219C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,16 @@ Global
 		{E176FF48-1F04-405C-A2D1-24A7BD0DE461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E176FF48-1F04-405C-A2D1-24A7BD0DE461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E176FF48-1F04-405C-A2D1-24A7BD0DE461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A70DFF36-4920-4EFE-A4F7-65569EA6EA13}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{07090096-A277-49D0-A0B8-FF25DB0219C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07090096-A277-49D0-A0B8-FF25DB0219C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07090096-A277-49D0-A0B8-FF25DB0219C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07090096-A277-49D0-A0B8-FF25DB0219C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
