@@ -1,5 +1,4 @@
 ﻿using padm5.maui.Services;
-using padm5.maui.ViewModels;
 
 namespace padm5.maui
 {

@@ -86,7 +86,7 @@ namespace padm5.Controllers
                 }
                 foreach (var idToAdd in idsToAdd)
                     await _queryExecutor.ExecuteQueryRaw(
-                        $"INSERT INTO TeamWorker (TeamsId, WorkersId) VALUES (${id}, ${idToAdd})");
+                        $"INSERT INTO TeamWorker (TeamsId, WorkersId) VALUES ({id}, {idToAdd})");
                 return NoContent();
             }
             catch (DbUpdateException e)

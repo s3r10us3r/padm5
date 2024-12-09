@@ -7,8 +7,6 @@ using padm5.ViewModels.Helpers;
 using padm5.ViewModels.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace padm5.ViewModels
 {
